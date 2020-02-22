@@ -1,0 +1,7 @@
+# -*- mode: sh -*-
+#!/usr/bin/env bash
+
+RUNNER=$(command -v python3)
+SCRIPT_SRC="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+${RUNNER} -m mypy ${SCRIPT_SRC}/main.py "$@"
