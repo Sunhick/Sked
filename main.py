@@ -15,20 +15,21 @@ import logging.config
 import yaml
 import argparse
 import os
+from typing import List
 
-import skia as sk
+from skia import *
 
-def setupLogging():
+def setupLogging() -> None:
     skiaEdRoot = getSkiaEdRoot()
     with open(os.path.join(skiaEdRoot, "logging.yaml"), "r") as f:
         logConfig = yaml.safe_load(f.read())
         logging.config.dictConfig(logConfig)
 
-def getSkiaEdRoot():
+def getSkiaEdRoot() -> str:
     skiaEdRoot = os.path.dirname(os.path.realpath(__file__))
     return skiaEdRoot
 
-def main(args):
+def main(args: List[str]) -> None:
     log = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser(description='Skia Editor')
@@ -38,17 +39,16 @@ def main(args):
                         help="parse the given skia picture.")
     parser.add_argument("--out",
                         help="capture output to the given file.")
-    args = parser.parse_args()
+    pargs = parser.parse_args()
 
     log.info(args)
     log.info("Skia Editor")
     log.warning("Skia Editor warning")
 
-    picture = sk.SkPicture.MakeFromStream(99)
+    picture: SkPicture = SkPicture.MakeFromStream(pargs.json_skps)
     picture.help()
 
 
 if __name__ == "__main__":
-    sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
     setupLogging()
     main(sys.argv[1:])
