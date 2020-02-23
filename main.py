@@ -35,19 +35,20 @@ def main(args: List[str]) -> None:
     parser = argparse.ArgumentParser(description='Skia Editor')
     parser.add_argument("--json-skps",
                         help="convert given json skia picture into skps format understood by skia debugger.")
-    parser.add_argument("--skps",
+    parser.add_argument("--skps", required=True,
                         help="parse the given skia picture.")
     parser.add_argument("--out",
                         help="capture output to the given file.")
     pargs = parser.parse_args()
 
+    # validate pargs
+
     log.info(args)
     log.info("Skia Editor")
     log.warning("Skia Editor warning")
 
-    picture: SkPicture = SkPicture.MakeFromStream(pargs.json_skps)
+    picture: SkPicture = SkPicture.MakeFromStream(pargs.skps)
     picture.help()
-
 
 if __name__ == "__main__":
     setupLogging()
